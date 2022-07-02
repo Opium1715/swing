@@ -4,31 +4,81 @@
 
 package Frame;
 
+import java.awt.event.*;
+import SQL.Msql;
+
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * @author unknown
  */
 public class Fpanel extends JPanel {
 
-    static Date date=new Date();
-
-    public Fpanel(String user) {
+    public Fpanel(String user) throws SQLException {
         initComponents();
         label4.setText("当前用户："+user);
         label5.setText("状态：已连接");
         displayTime();
+        setTable1();
+    }
+
+    private void setTable1() throws SQLException {
+        //表格初始化属性
+        String[] columnNames={"用户编号","用户密码","用户地址"};
+
+        String[][] userdatas=new String[][]{};
+
+        DefaultTableModel tableModel=new DefaultTableModel(userdatas,columnNames);
+
+        userTable.setEnabled(false);
+        userTable.setModel(tableModel);
+
+
+        //数据库连接
+        Connection con=Msql.connectData();
+        Statement stat= con.createStatement();
+        //执行初次显示动作
+        ResultSet rs= stat.executeQuery("select * from cjl.User");
+        while (rs.next()){
+            String[] strings=new String[3];
+            strings[0]=rs.getString("no");
+            strings[1]=rs.getString("password");
+            strings[2]=rs.getString("address");
+
+            tableModel.addRow(strings);
+
+            userTable.setModel(tableModel);
+        }
+
+
+
     }
 
     private void displayTime(){
         Timer timer = new Timer();
         timer.schedule(new TimeTask(),0,1000);
+    }
+
+    private void editorModeMouseClicked(MouseEvent e) {
+        if(editorMode.isSelected()){
+            userTable.setEnabled(true);
+        }
+        else {
+            userTable.setEnabled(false);
+        }
+
     }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -44,8 +94,11 @@ public class Fpanel extends JPanel {
         tabbedPane1 = new JTabbedPane();
         panel2 = new JPanel();
         scrollPane1 = new JScrollPane();
-        table1 = new JTable();
+        userTable = new JTable();
         panel7 = new JPanel();
+        label9 = new JLabel();
+        editorMode = new JToggleButton();
+        label2 = new JLabel();
         panel3 = new JPanel();
         panel4 = new JPanel();
         panel5 = new JPanel();
@@ -98,6 +151,7 @@ public class Fpanel extends JPanel {
 
         //======== tabbedPane1 ========
         {
+            tabbedPane1.setFont(tabbedPane1.getFont().deriveFont(tabbedPane1.getFont().getSize() + 10f));
 
             //======== panel2 ========
             {
@@ -105,30 +159,39 @@ public class Fpanel extends JPanel {
 
                 //======== scrollPane1 ========
                 {
-                    scrollPane1.setViewportView(table1);
+
+                    //---- userTable ----
+                    userTable.setFont(userTable.getFont().deriveFont(userTable.getFont().getSize() + 3f));
+                    scrollPane1.setViewportView(userTable);
                 }
                 panel2.add(scrollPane1, BorderLayout.CENTER);
 
                 //======== panel7 ========
                 {
-                    panel7.setLayout(null);
+                    panel7.setLayout(new GridLayout(4, 2));
 
-                    {
-                        // compute preferred size
-                        Dimension preferredSize = new Dimension();
-                        for(int i = 0; i < panel7.getComponentCount(); i++) {
-                            Rectangle bounds = panel7.getComponent(i).getBounds();
-                            preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
-                            preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                    //---- label9 ----
+                    label9.setText("\u5de5\u4f5c\u533a");
+                    label9.setHorizontalAlignment(SwingConstants.CENTER);
+                    label9.setFont(label9.getFont().deriveFont(label9.getFont().getSize() + 9f));
+                    panel7.add(label9);
+
+                    //---- editorMode ----
+                    editorMode.setText("\u7f16\u8f91\u6a21\u5f0f");
+                    editorMode.setToolTipText("\u6309\u4e0b\u5f00\u542f\u7f16\u8f91\u6a21\u5f0f");
+                    editorMode.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            editorModeMouseClicked(e);
                         }
-                        Insets insets = panel7.getInsets();
-                        preferredSize.width += insets.right;
-                        preferredSize.height += insets.bottom;
-                        panel7.setMinimumSize(preferredSize);
-                        panel7.setPreferredSize(preferredSize);
-                    }
+                    });
+                    panel7.add(editorMode);
                 }
                 panel2.add(panel7, BorderLayout.EAST);
+
+                //---- label2 ----
+                label2.setText("\u7cfb\u7edf\u6d88\u606f\uff1a");
+                panel2.add(label2, BorderLayout.SOUTH);
             }
             tabbedPane1.addTab("\u7528\u6237\u4fe1\u606f", panel2);
 
@@ -233,8 +296,11 @@ public class Fpanel extends JPanel {
     private JTabbedPane tabbedPane1;
     private JPanel panel2;
     private JScrollPane scrollPane1;
-    private JTable table1;
+    private JTable userTable;
     private JPanel panel7;
+    private JLabel label9;
+    private JToggleButton editorMode;
+    private JLabel label2;
     private JPanel panel3;
     private JPanel panel4;
     private JPanel panel5;

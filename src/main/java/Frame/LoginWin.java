@@ -37,8 +37,8 @@ public class LoginWin extends JFrame {
     }
 
     private void Login_buttonMouseClicked(MouseEvent e) throws SQLException {
-        Connection con;
-        PreparedStatement ps;
+        Connection con = null;
+        PreparedStatement ps = null;
         try {
             user = username.getText();
             pass = password.getText();
@@ -63,18 +63,12 @@ public class LoginWin extends JFrame {
             throw new RuntimeException(ex);
         }
        finally {
-
+            assert con != null;
+            assert ps != null;
+            Msql.freeConnect(con,ps);
         }
     }
 
-//    private void usernameKeyTyped(KeyEvent e) {
-//        // TODO add your code here
-//         user=username.getText();
-//    }
-//
-//    private void passwordKeyTyped(KeyEvent e) {
-//        pass=password.getText();
-//    }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents

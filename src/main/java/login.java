@@ -6,7 +6,5 @@ public class login {
 
     public static void main(String[] args) {
         new LoginWin().setVisible(true);
-        new MainWIn().setVisible(true);
-
     }
 }

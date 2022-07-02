@@ -53,20 +53,43 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane1"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 					name: "panel2"
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 						name: "scrollPane1"
 						add( new FormComponent( "javax.swing.JTable" ) {
-							name: "table1"
+							name: "userTable"
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 3, false )
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "Center"
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+						"columns": 2
+						"rows": 4
+					} ) {
 						name: "panel7"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label9"
+							"text": "工作区"
+							"horizontalAlignment": 0
+							"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 9, false )
+						} )
+						add( new FormComponent( "javax.swing.JToggleButton" ) {
+							name: "editorMode"
+							"text": "编辑模式"
+							"toolTipText": "按下开启编辑模式"
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "editorModeMouseClicked", true ) )
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "East"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label2"
+						"text": "系统消息："
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "South"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "用户信息"
@@ -96,7 +119,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 75, 0 )
-			"size": new java.awt.Dimension( 1240, 685 )
+			"size": new java.awt.Dimension( 1250, 685 )
 		} )
 	}
 }

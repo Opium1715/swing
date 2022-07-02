@@ -5,6 +5,7 @@
 package Frame;
 
 import java.awt.*;
+import java.sql.SQLException;
 import javax.swing.*;
 
 /**
@@ -12,7 +13,7 @@ import javax.swing.*;
  */
 public class MainWIn extends JFrame {
     String user="test";
-    public MainWIn() {
+    public MainWIn() throws SQLException {
         initComponents();
         setContentPane(new Fpanel(user));
     }
