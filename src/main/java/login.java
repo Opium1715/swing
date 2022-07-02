@@ -1,5 +1,12 @@
+import Frame.LoginWin;
+import Frame.MainWIn;
+
 public class login {
+
+
     public static void main(String[] args) {
-        System.out.println("11");
+        new LoginWin().setVisible(true);
+        new MainWIn().setVisible(true);
+
     }
 }
