@@ -46,7 +46,7 @@ public class LoginWin extends JFrame {
             System.out.println(pass);
             con = Msql.connectData();
 
-            ps = con.prepareStatement("select * from cjl.User where no =? and password = ? ");
+            ps = con.prepareStatement("select * from cjl.User where customerNo =? and password = ? ");
             ps.setString(1, user);
             ps.setString(2, pass);
             ResultSet rs = ps.executeQuery();

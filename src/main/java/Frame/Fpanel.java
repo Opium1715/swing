@@ -4,10 +4,13 @@
 
 package Frame;
 
-import java.awt.event.*;
 import SQL.Msql;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,9 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  * @author unknown
@@ -31,12 +31,12 @@ public class Fpanel extends JPanel {
         label4.setText("当前用户："+user);
         label5.setText("状态：已连接");
         displayTime();
-        setTable1();
+        initTable1();
     }
 
-    private void setTable1() throws SQLException {
+    private void initTable1() throws SQLException {
         //表格初始化属性
-        String[] columnNames={"用户编号","用户密码","用户地址"};
+        String[] columnNames={"用户编号","用户密码","用户地址","用户名","邮编","电话"};
 
         String[][] userdatas=new String[][]{};
 
@@ -52,10 +52,13 @@ public class Fpanel extends JPanel {
         //执行初次显示动作
         ResultSet rs= stat.executeQuery("select * from cjl.User");
         while (rs.next()){
-            String[] strings=new String[3];
-            strings[0]=rs.getString("no");
+            String[] strings=new String[6];
+            strings[0]=rs.getString("customerNo");
             strings[1]=rs.getString("password");
             strings[2]=rs.getString("address");
+            strings[3]= rs.getString("userName");
+            strings[4]=rs.getString("postCode");
+            strings[5]=rs.getString("telPhone");
 
             tableModel.addRow(strings);
 
@@ -99,6 +102,14 @@ public class Fpanel extends JPanel {
         label9 = new JLabel();
         editorMode = new JToggleButton();
         label2 = new JLabel();
+        searchPanel = new JPanel();
+        searchUser = new JLabel();
+        searchNo = new JTextField();
+        label10 = new JLabel();
+        searchName = new JTextField();
+        label11 = new JLabel();
+        searchAddress = new JTextField();
+        button1 = new JButton();
         panel3 = new JPanel();
         panel4 = new JPanel();
         panel5 = new JPanel();
@@ -192,6 +203,40 @@ public class Fpanel extends JPanel {
                 //---- label2 ----
                 label2.setText("\u7cfb\u7edf\u6d88\u606f\uff1a");
                 panel2.add(label2, BorderLayout.SOUTH);
+
+                //======== searchPanel ========
+                {
+                    searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+                    //---- searchUser ----
+                    searchUser.setText("\u7528\u6237\u7f16\u53f7\uff1a");
+                    searchPanel.add(searchUser);
+
+                    //---- searchNo ----
+                    searchNo.setPreferredSize(new Dimension(132, 30));
+                    searchPanel.add(searchNo);
+
+                    //---- label10 ----
+                    label10.setText("\u7528\u6237\u540d\u79f0\uff1a");
+                    searchPanel.add(label10);
+
+                    //---- searchName ----
+                    searchName.setPreferredSize(new Dimension(132, 30));
+                    searchPanel.add(searchName);
+
+                    //---- label11 ----
+                    label11.setText("\u7528\u6237\u5730\u5740");
+                    searchPanel.add(label11);
+
+                    //---- searchAddress ----
+                    searchAddress.setPreferredSize(new Dimension(132, 30));
+                    searchPanel.add(searchAddress);
+
+                    //---- button1 ----
+                    button1.setText("\u641c\u7d22");
+                    searchPanel.add(button1);
+                }
+                panel2.add(searchPanel, BorderLayout.NORTH);
             }
             tabbedPane1.addTab("\u7528\u6237\u4fe1\u606f", panel2);
 
@@ -301,6 +346,14 @@ public class Fpanel extends JPanel {
     private JLabel label9;
     private JToggleButton editorMode;
     private JLabel label2;
+    private JPanel searchPanel;
+    private JLabel searchUser;
+    private JTextField searchNo;
+    private JLabel label10;
+    private JTextField searchName;
+    private JLabel label11;
+    private JTextField searchAddress;
+    private JButton button1;
     private JPanel panel3;
     private JPanel panel4;
     private JPanel panel5;

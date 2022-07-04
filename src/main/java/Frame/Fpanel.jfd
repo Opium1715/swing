@@ -91,6 +91,41 @@ new FormModel {
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "South"
 					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+						"alignment": 0
+					} ) {
+						name: "searchPanel"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "searchUser"
+							"text": "用户编号："
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "searchNo"
+							"preferredSize": new java.awt.Dimension( 132, 30 )
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label10"
+							"text": "用户名称："
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "searchName"
+							"preferredSize": new java.awt.Dimension( 132, 30 )
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label11"
+							"text": "用户地址"
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "searchAddress"
+							"preferredSize": new java.awt.Dimension( 132, 30 )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "button1"
+							"text": "搜索"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "North"
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "用户信息"
 				} )
